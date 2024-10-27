@@ -4,12 +4,10 @@
 <?php 
  
 // Query to get employee data
-$sql = "SELECT id, fullname, email, secret, gender, phone, address, regdate, status, role, note, created_at FROM tbl_employee order by id desc";
+$sql = "SELECT id, location_name, longitude, latitude, meters, note, status, created_at FROM tbl_location order by id desc";
 $result = $con->query($sql);
 
-// Fetch locations from the database
-$ft = "SELECT id, location_name FROM tbl_location";
-$fetch = mysqli_query($con, $ft);
+
 ?>
 <style >
 	<style type="text/css">
@@ -94,15 +92,15 @@ $fetch = mysqli_query($con, $ft);
 
 <div class = "row" >
 	<div class = "col"  >
-      <h3> Employees-Information </h3>
+      <h3> Locations-Information </h3>
 
 
   </div>
   <div class = "col"  >
 
      <button type="button" class="btn btn-default text-dark float-right ml-2 rounded-pill" type="button" data-toggle="collapse" data-target="#collapse_2" aria-expanded="false" aria-controls="collapseExample"> <i class="fa-solid fa-bars"></i></button>
-<a  id="table_button"  class="btn btn-sm btn-secondary  rounded-pill float-right ml-2"  href="">  <small class="fa fa-arrow-left  "></small>&nbsp;&nbsp;  Back &nbsp;&nbsp;    </a> 
-<a  style="  background-color: #f2f2f2; color: #543e31; font-weight: bold;" href="#" data-toggle="modal" data-target="#add_modal"   class="action_button btn btn-sm btn-secondary  rounded-pill float-right ml-2"  href="#">  <small class="fas fa-plus "></small>&nbsp;&nbsp;     Add New &nbsp;&nbsp;    </a>   
+<a  id="table_button"  class="btn btn-sm btn-secondary  rounded-pill float-right ml-2"  href="/att/index.php">  <small class="fa fa-arrow-left  "></small>&nbsp;&nbsp;  Back &nbsp;&nbsp;    </a> 
+<a  style="  background-color: #f2f2f2; color: #543e31; font-weight: bold;" href="#" data-toggle="modal" data-target="#add_location_modal"   class="action_button btn btn-sm btn-secondary  rounded-pill float-right ml-2"  href="#">  <small class="fas fa-plus "></small>&nbsp;&nbsp;     Add New &nbsp;&nbsp;    </a>   
  </div>
 </div>
 
@@ -115,12 +113,14 @@ $fetch = mysqli_query($con, $ft);
         <thead id="table_row">
             <tr>
                 <th>#</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Address</th>
-                <th>Status</th>
-                <th>Info</th>
+                <th>Location Name</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Meters</th>
+                <th>Note</th>
+                <th>status</th>
+                <th>Date</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -128,11 +128,13 @@ $fetch = mysqli_query($con, $ft);
                 <?php while ($employee = $result->fetch_assoc()): ?>
                     <tr>
                         <td><?= htmlspecialchars($employee['id']) ?></td>
-                        <td><?= htmlspecialchars($employee['fullname']) ?></td>
-                        <td><?= htmlspecialchars($employee['email']) ?></td>
-                        <td><?= htmlspecialchars($employee['phone']) ?></td>
-                        <td><?= htmlspecialchars($employee['address']) ?></td>
+                        <td><?= htmlspecialchars($employee['location_name']) ?></td>
+                        <td><?= htmlspecialchars($employee['longitude']) ?></td>
+                        <td><?= htmlspecialchars($employee['latitude']) ?></td>
+                        <td><?= htmlspecialchars($employee['meters']) ?></td>
+                        <td><?= htmlspecialchars($employee['note']) ?></td>
                         <td><?= htmlspecialchars($employee['status']) ?></td>
+                        <td><?= htmlspecialchars($employee['created_at']) ?></td>
                         <td>
                             <button style="background-color: #f2f2f2; color: #543e31; font-weight: bold; width:100%;" class="btn btn-dark  btn-sm  rounded-pill "    >&nbsp;Save&nbsp; 
                             </button>
@@ -140,12 +142,12 @@ $fetch = mysqli_query($con, $ft);
                     </tr>
                 <?php endwhile; ?>
             <?php else: ?>
-                <tr><td colspan="7">No records found.</td></tr>
+               
             <?php endif; ?>
         </tbody>
         <tfoot>
             <tr class="bg-secondary text-light">
-                <th colspan="7" style="text-align:left"></th>
+                <th colspan="9" style="text-align:left"></th>
             </tr>
         </tfoot>
     </table>
@@ -158,108 +160,54 @@ $fetch = mysqli_query($con, $ft);
 
 
 </div>
-
-<!-- Stat Model --> 
-<div class="modal fade" id="add_modal" role="dialog">
+<!-- location save  -->
+<div class="modal fade" id="add_location_modal" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel">Add Employee</h4>
+                <h4 class="modal-title" id="exampleModalLabel">Add Location</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="../post/empsave.php">
+                <form method="post" action="../post/locationsave.php">
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
-                                <label>Full Name <span style="color: red;">*</span></label>
-                                <input required type="text" class="form-control" name="fullname" id="fullname" autocomplete="on">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label>Email <span style="color: red;">*</span></label>
-                                <input  type="email" class="form-control" name="email" id="email" autocomplete="on">
+                                <label>Location Name <span style="color: red;">*</span></label>
+                                <input required type="text" class="form-control" name="location_name" id="location_name" autocomplete="on">
                             </div>
                         </div>
                     </div>
-
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
-                                <label>Password <span style="color: red;">*</span></label>
-                                <input required type="password" class="form-control" name="password" id="password" autocomplete="on">
+                                <label>Longitude <span style="color: red;">*</span></label>
+                                <input required type="text" class="form-control" name="longitude" id="longitude" autocomplete="on">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label>Confirm <span style="color: red;">*</span></label>
-                                <input required type="password" class="form-control" name="confirm" id="confirm" autocomplete="on">
+                                <label>Latitude <span style="color: red;">*</span></label>
+                                <input required type="text" class="form-control" name="latitude" id="latitude" autocomplete="on">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label>Secret <span style="color: red;">*</span></label>
-                                <input required type="text" class="form-control" name="secret" id="secret" autocomplete="on">
+                                <label>Meters <span style="color: red;">*</span></label>
+                                <input required type="number" class="form-control" name="meters" id="meters" autocomplete="on">
                             </div>
                         </div>
                     </div>
-
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
-                                <label>Gender <span style="color: red;">*</span></label>
-                                <select required name="gender" class="form-control" id="gender">
-                                    <option value="">Select</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col">
-                        <div class="form-group">
-                            <label>Location <span style="color: red;">*</span></label>
-                            <select required name="location" class="form-control" id="location">
-                                <option value="">Select</option>
-                                <?php
-                                // Loop through the results and populate the dropdown
-                                if (mysqli_num_rows($fetch) > 0) {
-                                    while ($fecthloca = mysqli_fetch_assoc($fetch)) {
-                                        echo '<option value="' . $fecthloca['id'] . '">' . $fecthloca['id'] . ' - ' . $fecthloca['location_name'] . '</option>';
-                                  }
-                                } else {
-                                    echo '<option value="">No locations available</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label>Phone <span style="color: red;">*</span></label>
-                                <input required type="text" class="form-control" name="phone" id="phone" autocomplete="on">
+                                <label>Note</label>
+                                <textarea class="form-control" name="note" id="note" rows="3"></textarea>
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label>Address <span style="color: red;">*</span></label>
-                                <input required type="text" class="form-control" name="address" id="address" autocomplete="on">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label>Registration Date <span style="color: red;">*</span></label>
-                                <input required type="date" class="form-control" name="regdate" id="regdate" autocomplete="on">
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
@@ -270,40 +218,20 @@ $fetch = mysqli_query($con, $ft);
                                 </select>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label>Role <span style="color: red;">*</span></label>
-                                <select required name="role" class="form-control" id="role">
-                                    <option value="2">Employee</option>
-                                    <option value="1">User</option>
-                                    <option value="0">Admin</option>
-
-                                </select>
-                            </div>
-                        </div>
                     </div>
-
-                    <div class="form-row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label>Note</label>
-                                <textarea class="form-control" name="note" id="note" rows="3"></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <input type="hidden" name="id" id="id">
-                </div>
-                <div class="modal-footer">
-                  <button   style="width: 100px; border: 1px solid black; " type="button" class="btn btn-default text-dark btn-sm rounded-pill " data-dismiss="modal">&nbsp;<strong>Close</strong>&nbsp;</button>
-                  <button style="width: 100px; " type="submit"  name="save" class="btn btn-dark  btn-sm  rounded-pill "    >&nbsp;Save&nbsp; 
-                  </button>
-              </form>
-          </div>
-      </div>
-  </div>
+                    
+                
+            </div>
+            <div class="modal-footer">
+                <button style="width: 100px; border: 1px solid black;" type="button" class="btn btn-default text-dark btn-sm rounded-pill" data-dismiss="modal">&nbsp;<strong>Close</strong>&nbsp;</button>
+                <button style="width: 100px;" type="submit" name="save" class="btn btn-dark btn-sm rounded-pill">&nbsp;Save&nbsp;</button>
+            </div>
+        </form>
+        </div>
+    </div>
 </div>
 
+<!-- end location modal -->
 <!-- ----------------------------------------------------------------------------------------------------------- -->
 
 

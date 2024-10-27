@@ -1,6 +1,32 @@
 
 <?php include($_SERVER['DOCUMENT_ROOT'] . "/att/inc/header.php"); ?>
+<?php 
+// Display session variables with line breaks and HTML escaping
+// echo htmlspecialchars($_SESSION['user_id']) . "<br>";
+// echo htmlspecialchars($_SESSION['fullname']) . "<br>";
+// echo htmlspecialchars($_SESSION['email']) . "<br>";
+// echo htmlspecialchars($_SESSION['role']) . "<br>";
+// echo htmlspecialchars($_SESSION['phone']) . "<br>";
+// echo htmlspecialchars($_SESSION['address']) . "<br>";
+// echo htmlspecialchars($_SESSION['location_id']) . "<br>";
+// echo htmlspecialchars($_SESSION['location_name']) . "<br>";
+// echo htmlspecialchars($_SESSION['longitude']) . "<br>";
+// echo htmlspecialchars($_SESSION['latitude']) . "<br>";
+// echo htmlspecialchars($_SESSION['meters']) . "<br>";
+// echo htmlspecialchars($_SESSION['location_status']) . "<br>";
+//"br"
+// Temporary debug to ensure session values are set correctly
+//echo "Latitude: " . $_SESSION['latitude'] . "<br>";
+// echo "Longitude: " . $_SESSION['longitude'] . "<br>";
+?>
 
+<?php
+// Database connection
+include("config/dbcon.php");
+// Fetch locations from the database
+$query = "SELECT id, location_name FROM tbl_location";
+$result = mysqli_query($con, $query);
+?>
 <div class = "container" style="width:100%">
    <br>
 
@@ -12,7 +38,7 @@
 
           <h4 class="card-title">Actions</h4>
           <a href="#"  data-toggle="modal" data-target="#add_modal"   style="background-color: #e2e6ea" type="button" class="btn btn-light text-dark btn-lg btn-block rounded-pill  ">Add Employee</a>
-          <a href="#"  data-toggle="modal" data-target="#add_modal"   style="background-color: #e2e6ea" type="button" class="btn btn-light text-dark btn-lg btn-block rounded-pill  ">Add Location</a>
+          <a href="#" data-toggle="modal" data-target="#add_location_modal" style="background-color: #e2e6ea" type="button" class="btn btn-light text-dark btn-lg btn-block rounded-pill">Add Location</a>
 
        </div>
     </div>
@@ -30,7 +56,7 @@
        <a href="view/employee_add.php" style="background-color: #e2e6ea
        " type="button" class="btn btn-light text-dark btn-lg btn-block rounded-pill ">Employees</a>
 
-<a href="view/employee_add.php" style="background-color: #e2e6ea
+<a href="view/location_add.php" style="background-color: #e2e6ea
        " type="button" class="btn btn-light text-dark btn-lg btn-block rounded-pill ">locations</a>
 
 <a href="view/attend.php" style="background-color: #e2e6ea
@@ -60,7 +86,7 @@
 
 
   
-<!-- Stat Model --> 
+<!-- register employee Model --> 
 <div class="modal fade" id="add_modal" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -82,7 +108,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label>Email <span style="color: red;">*</span></label>
-                                <input required type="email" class="form-control" name="email" id="email" autocomplete="on">
+                                <input required type="text" class="form-control" name="email" id="email" autocomplete="on">
                             </div>
                         </div>
                     </div>
@@ -119,6 +145,24 @@
                                     
                                 </select>
                             </div>
+                        </div>
+                        <div class="col">
+                        <div class="form-group">
+                            <label>Location <span style="color: red;">*</span></label>
+                            <select required name="location" class="form-control" id="location">
+                                <option value="">Select</option>
+                                <?php
+                                // Loop through the results and populate the dropdown
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo '<option value="' . $row['id'] . '">' . $row['id'] . ' - ' . $row['location_name'] . '</option>';
+                                  }
+                                } else {
+                                    echo '<option value="">No locations available</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
@@ -188,11 +232,85 @@
 </div>
 
 <!-- End Model -->
+<!-- location modal  -->
+
+<div class="modal fade" id="add_location_modal" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Add Location</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="post/locationsave.php">
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Location Name <span style="color: red;">*</span></label>
+                                <input required type="text" class="form-control" name="location_name" id="location_name" autocomplete="on">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Longitude <span style="color: red;">*</span></label>
+                                <input required type="text" class="form-control" name="longitude" id="longitude" autocomplete="on">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Latitude <span style="color: red;">*</span></label>
+                                <input required type="text" class="form-control" name="latitude" id="latitude" autocomplete="on">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Meters <span style="color: red;">*</span></label>
+                                <input required type="number" class="form-control" name="meters" id="meters" autocomplete="on">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Note</label>
+                                <textarea class="form-control" name="note" id="note" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Status <span style="color: red;">*</span></label>
+                                <select required name="status" class="form-control" id="status">
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                
+            </div>
+            <div class="modal-footer">
+                <button style="width: 100px; border: 1px solid black;" type="button" class="btn btn-default text-dark btn-sm rounded-pill" data-dismiss="modal">&nbsp;<strong>Close</strong>&nbsp;</button>
+                <button style="width: 100px;" type="submit" name="save" class="btn btn-dark btn-sm rounded-pill">&nbsp;Save&nbsp;</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<!-- end location modal -->
 
 
 
 
 
+<!-- password show not working -->
 <script>
   (function () {
      'use strict'
@@ -219,23 +337,7 @@
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<!-- success message  -->
-<?php
-if (isset($_SESSION['message']) && isset($_SESSION['message_type'])) {
-    echo "<script>
-    Swal.fire({
-        icon: '" . ($_SESSION['message_type'] == 'success' ? 'success' : 'error') . "',
-        title: '" . ($_SESSION['message_type'] == 'success' ? 'Success' : 'Error') . "',
-        text: '" . $_SESSION['message'] . "',
-        timer: 2000,
-        showConfirmButton: false
-    });
-    </script>";
-    // Unset session variables
-    unset($_SESSION['message']);
-    unset($_SESSION['message_type']);
-}
-?>
+<!--password checker  -->
 <script>
         document.addEventListener('DOMContentLoaded', function () {
             const passwordField = document.getElementById('password');

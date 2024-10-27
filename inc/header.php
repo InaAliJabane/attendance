@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+
+<?php include(__DIR__ . '/../config/auth_check.php'); ?>
+
 <html>
    <head>
       <title>Sanabil - Employee attendance</title>
@@ -13,6 +15,7 @@
       <!--link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"-->
       <link rel="stylesheet" type="text/css" href="/att/assets/css/jquery.dataTables.min.css">
       <!--Start-->
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="/att/assets/plugins/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
       <!--link rel="stylesheet" type="text/css" href="/att/assets/css/jquery.dataTables.min.css">
          <link rel="stylesheet" type="text/css" href="/att/assets/css/bootstrap.min.css">

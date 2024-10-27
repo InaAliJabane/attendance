@@ -118,11 +118,11 @@
                      <a class="dropdown-item" href="">Change Password</a>
                      <div class="dropdown-divider"></div>
 
-                     <a class="dropdown-item" href=""> <i class="fas fa-sign-out-alt"> &nbsp; </i> Logout</a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                     <a class="dropdown-item" href="/att/logout.php"> <i class="fas fa-sign-out-alt"> &nbsp; </i> Logout</a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
                   </div>
                </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link active Invisible" href="#">Link</a>
-            </li>
+            </li> -->
         </ul>
     </div>
