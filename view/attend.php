@@ -1,152 +1,28 @@
-<?php include("../inc/header.php"); ?>
-<?php include("../config/dbcon.php"); ?>
 
-<?php 
- 
-// Query to get employee data
-$sql = "SELECT id, fullname, email, secret, gender, phone, address, regdate, status, role, note, created_at FROM tbl_employee order by id desc";
-$result = $con->query($sql);
+<?php include($_SERVER['DOCUMENT_ROOT'] . "/att/inc/header.php"); ?>
 
+<div class = "container" style="width:100%">
+   <br>
 
-?>
-<style >
-	<style type="text/css">
-	#table_row {
-		background-color: #f2f2f2;
-		color: #543e31;
-	}
-	#table_button {
-		background-color: #f2f2f2;
-		color: #543e31;
-		font-weight: bold;
-	}
-	
-	thead {
-		background-color: red   ;
-		color: #FFFFFF;
-	}
-</style>
-<!-- My custom style -->
-<style type="text/css">
-	@media print {
-		
-		.table th {
-			
-			background-color: #FFFFFF !important;
-			
-		}
+   <div class="row">
 
+      <div class = "col"   >
+       <div class="card" style="box-shadow:0 0 5px 0 lightgrey; width: 80%; left: 12%;">
+         <div class="card-body">
 
-		.table th {
-			
-           color: #000000  !important;
-
-       }
-
-
-
-
-
-       .table td {
-          background-color: transparent !important;
-      }
-
-
-      .bg-success {
-          background-color: #0000FF    !important;
-
-      }
-
-
-      .table th {
-          background-color: transparent !important;
-      }
-  }
-</style>
-
-</style>
-<div class = "container" style="width:100%" >
- <div class="collapse" id="collapse_2">
-     <div class="card card-body" style="width: 100%">
-      <div class="form-row">
-          <div class="col">
-           <a  class="btn btn-default btn-sm text-dark rounded-pill" href=""> <strong><i class="fa-solid fa-bars"></i> </strong></a> 
-
-           <span><strong>/</strong></span>
-           <a  class="btn btn-default btn-sm text-dark rounded-pill" href=""> <strong>Employee</strong></a> 
-           <span><strong>/</strong></span>
-           <a onclick="location.reload();" class="btn btn-default btn-sm text-dark rounded-pill"  > <strong>Register</strong></a> 
+          <h4 class="card-title">Actions</h4>
+          <a href="#"  data-toggle="modal" data-target="#add_modal"   style="background-color: #e2e6ea" type="button" class="btn btn-light text-dark btn-lg btn-block rounded-pill  ">Attendes</a>
+          <a href="#"  data-toggle="modal" data-target="#add_modal"   style="background-color: #e2e6ea" type="button" class="btn btn-light text-dark btn-lg btn-block rounded-pill  ">Transactions</a>
+          <a href="#"  data-toggle="modal" data-target="#add_modal"   style="background-color: #e2e6ea" type="button" class="btn btn-light text-dark btn-lg btn-block rounded-pill  ">Allowed Locations</a>
        </div>
-
-
-
-   </div>
-</div>
-</div>
-<br>
-
-<!-- End Model -->
-
-
-
-
-<div class = "row" >
-	<div class = "col"  >
-      <h3> Employees-Information </h3>
-
-
-  </div>
-  <div class = "col"  >
-
-     <button type="button" class="btn btn-default text-dark float-right ml-2 rounded-pill" type="button" data-toggle="collapse" data-target="#collapse_2" aria-expanded="false" aria-controls="collapseExample"> <i class="fa-solid fa-bars"></i></button>
-<a  id="table_button"  class="btn btn-sm btn-secondary  rounded-pill float-right ml-2"  href="">  <small class="fa fa-arrow-left  "></small>&nbsp;&nbsp;  Back &nbsp;&nbsp;    </a> 
-<a  style="  background-color: #f2f2f2; color: #543e31; font-weight: bold;" href="#" data-toggle="modal" data-target="#add_modal"   class="action_button btn btn-sm btn-secondary  rounded-pill float-right ml-2"  href="#">  <small class="fas fa-plus "></small>&nbsp;&nbsp;     Add New &nbsp;&nbsp;    </a>   
+    </div>
  </div>
+
+
+
+
+
 </div>
-
-
-
-
-<br>
-<div class="table-responsive">
-    <table id="courses_table" class="table table-striped table-bordered" style="width:100%">
-        <thead id="table_row">
-            <tr>
-                <th>#</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Address</th>
-                <th>Status</th>
-                <th>Info</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if ($result->num_rows > 0): ?>
-                <?php while ($employee = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($employee['id']) ?></td>
-                        <td><?= htmlspecialchars($employee['fullname']) ?></td>
-                        <td><?= htmlspecialchars($employee['email']) ?></td>
-                        <td><?= htmlspecialchars($employee['phone']) ?></td>
-                        <td><?= htmlspecialchars($employee['address']) ?></td>
-                        <td><?= htmlspecialchars($employee['status']) ?></td>
-                        <td>
-                            <button style="background-color: #f2f2f2; color: #543e31; font-weight: bold; width:100%;" class="btn btn-dark  btn-sm  rounded-pill "    >&nbsp;Save&nbsp; 
-                            </button>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <tr><td colspan="7">No records found.</td></tr>
-            <?php endif; ?>
-        </tbody>
-        <tfoot>
-            <tr class="bg-secondary text-light">
-                <th colspan="7" style="text-align:left"></th>
-            </tr>
-        </tfoot>
-    </table>
 </div>
 
 
@@ -154,9 +30,7 @@ $result = $con->query($sql);
 
 
 
-
-</div>
-
+  
 <!-- Stat Model --> 
 <div class="modal fade" id="add_modal" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
@@ -168,7 +42,7 @@ $result = $con->query($sql);
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="../post/empsave.php">
+                <form method="post" action="post/empsave.php">
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
@@ -284,8 +158,36 @@ $result = $con->query($sql);
   </div>
 </div>
 
-<!-- ----------------------------------------------------------------------------------------------------------- -->
+<!-- End Model -->
 
+
+
+
+
+<script>
+  (function () {
+     'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+     var forms = document.querySelectorAll('.needs-validation1')
+
+  // Loop over them and prevent submission
+     Array.prototype.slice.call(forms)
+     .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+       }
+
+       form.classList.add('was-validated')
+    }, false)
+   })
+  })()
+
+
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <!-- success message  -->
@@ -309,7 +211,7 @@ if (isset($_SESSION['message']) && isset($_SESSION['message_type'])) {
         document.addEventListener('DOMContentLoaded', function () {
             const passwordField = document.getElementById('password');
             const confirmPasswordField = document.getElementById('confirm');
-            const form = document.querySelector('form[action="../post/empsave.php"]');
+            const form = document.querySelector('form[action="post/empsave.php"]');
 
             if (passwordField && confirmPasswordField && form) {
                 form.addEventListener('submit', function (e) {
@@ -337,61 +239,4 @@ if (isset($_SESSION['message']) && isset($_SESSION['message_type'])) {
             }
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            var table = $('#courses_table').DataTable({
-        "order": [], // Default ordering
-        "scrollX": true, // Enable horizontal scrolling
-        mark: true, // Enable search highlighting
-        dom: 'Bfrtip', // Define the layout
-        lengthMenu: [ // Define length menu options
-            [5, 25, 50, 100, -1],
-            ['5 rows','25 rows', '50 rows', '100 rows', 'Show All']
-            ],
-        buttons: [ // Define buttons for export functionality
-            'pageLength',
-            {
-                extend: 'copyHtml5',
-                exportOptions: {
-                    columns: ':visible' // Export only visible columns
-                }
-            },
-            {
-                extend: 'excelHtml5',
-                exportOptions: {
-                    columns: ':visible' // Export only visible columns
-                }
-            },
-            {
-                extend: 'csvHtml5',
-                exportOptions: {
-                    columns: ':visible' // Export only visible columns
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                exportOptions: {
-                    columns: ':visible' // Export only visible columns
-                }
-            },
-            {
-                extend: 'print',
-                exportOptions: {
-                    columns: ':visible' // Export only visible columns
-                }
-            },
-            'colvis' // Column visibility toggle button
-            ],
-        columnDefs: [{ // Define column settings
-            targets: -1, // Target last column
-            visible: true // Show all columns by default
-        }]
-    });
-        });
-
-
-
-
-    </script>
-
 
