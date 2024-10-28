@@ -75,7 +75,7 @@
 
 
 
-    <img style="width: 240px;" src="https://schoolsfls443dr4rsm53m.shihaab.tech/images/sanabil_main_logo.png" class="card-img-top mx-auto" alt="..."><br/><small>Employee Systems</small><br>
+    <img style="width: 240px;" src="https://schoolsfls443dr4rsm53m.shihaab.tech/images/sanabil_main_logo.png" class="card-img-top mx-auto" alt="..."><br/><small></small><br>
 
   </center>
 
@@ -83,7 +83,7 @@
 
 
   <center><h5>
-   Emp
+   Employee Systems
  </h5> </center>
 
  <br><br><br><br>
